@@ -1,3 +1,0 @@
-[claude-code]
-source = "npm"
-npm = "@musistudio/claude-code-router"
