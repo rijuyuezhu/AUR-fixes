@@ -1,7 +1,7 @@
 pkgbase = niri-git-local
 	pkgdesc = Scrollable-tiling Wayland compositor
-	pkgver = 25.11
-	pkgrel = 2
+	pkgver = 26.04
+	pkgrel = 1
 	url = https://github.com/niri-wm/niri
 	arch = x86_64
 	arch = aarch64
@@ -29,15 +29,15 @@ pkgbase = niri-git-local
 	optdepends = xdg-desktop-portal-gnome: screencasting support
 	optdepends = gnome-keyring: implements the secret portal, for certain apps to work
 	optdepends = polkit-gnome: when apps need to ask for root permissions
-	provides = niri=25.11
+	provides = niri=26.04
 	conflicts = niri-bin
 	conflicts = niri
 	conflicts = niri-git
 	options = !debug
 	options = !lto
 	options = !strip
-	source = niri::git+https://github.com/niri-wm/niri.git#tag=v25.11
-	source = tag_support-shm-sharing_2.patch::https://github.com/wrvsrx/niri/compare/tag_support-shm-sharing_2~19..tag_support-shm-sharing_2.patch
+	source = niri::git+https://github.com/niri-wm/niri.git#tag=v26.04
+	source = tag_support-shm-sharing_4.patch::https://github.com/wrvsrx/niri/compare/tag_support-shm-sharing_4~19..tag_support-shm-sharing_4.patch
 	b2sums = SKIP
 	b2sums = SKIP
 

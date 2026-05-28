@@ -14,13 +14,16 @@
 : ${_sccache:=}
 
 _srcname=niri
-_tag=25.11
-_patchname=tag_support-shm-sharing_2.patch
-_patchurl="https://github.com/wrvsrx/niri/compare/tag_support-shm-sharing_2~19..tag_support-shm-sharing_2.patch"
+_tag=26.04
+_patchname=tag_support-shm-sharing_4.patch
+_patchurl="https://github.com/wrvsrx/niri/compare/tag_support-shm-sharing_4~19..tag_support-shm-sharing_4.patch"
+
+# Skip Git LFS docs assets that are not needed for building niri.
+export GIT_LFS_SKIP_SMUDGE=1
 
 pkgname=niri-git-local
 pkgver=${_tag}
-pkgrel=2
+pkgrel=1
 pkgdesc="Scrollable-tiling Wayland compositor"
 arch=(x86_64 aarch64)
 url="https://github.com/niri-wm/${_srcname}"
