@@ -1,0 +1,33 @@
+pkgbase = pulse-secure-local
+	pkgdesc = Ivanti Secure Access Client (local fixed package)
+	pkgver = 22.8r6_b44527
+	pkgrel = 3
+	url = https://www.ivanti.com/products/secure-access-client
+	install = pulse-secure-local.install
+	arch = x86_64
+	license = custom
+	depends = curl
+	depends = dbus
+	depends = dmidecode
+	depends = gcc-libs
+	depends = glib2
+	depends = gtkmm3
+	depends = libbsd
+	depends = libsecret
+	depends = libjxl11-compat
+	depends = openssl
+	depends = patch
+	depends = util-linux-libs
+	depends = webkit2gtk
+	optdepends = psmisc: pulsesvc process management
+	provides = pulse-secure=22.8r6_b44527
+	conflicts = pulse-secure
+	conflicts = pulse-connect-secure
+	options = !strip
+	options = !debug
+	source = EULA.txt
+	sha256sums = 823b298db462d9963148888287ebde2eb013c9b7d0635f3893d18a35776fa8c3
+	source_x86_64 = ps-pulse-linux-22.8r6-b44527-installer.rpm::https://ftp.uvigo.es/junospulse/ps-pulse-linux-22.8r6-b44527-installer.rpm
+	sha256sums_x86_64 = f2278aa0a991366b6b349cab1bdeda77961e5a4ad20f285db709e81e3af2e31e
+
+pkgname = pulse-secure-local

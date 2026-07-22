@@ -1,0 +1,73 @@
+# Maintainer: Wenrui Huang (local package)
+# Based on the AUR pulse-secure package maintained by Chiwan Park and contributors.
+
+pkgname=pulse-secure-local
+pkgver=22.8r6_b44527
+pkgrel=3
+pkgdesc='Ivanti Secure Access Client (local fixed package)'
+arch=(x86_64)
+url='https://www.ivanti.com/products/secure-access-client'
+license=(custom)
+depends=(
+  curl
+  dbus
+  dmidecode
+  gcc-libs
+  glib2
+  gtkmm3
+  libbsd
+  libsecret
+  libjxl11-compat
+  openssl
+  patch
+  util-linux-libs
+  webkit2gtk
+)
+optdepends=(
+  'psmisc: pulsesvc process management'
+)
+provides=("pulse-secure=${pkgver}")
+conflicts=(pulse-secure pulse-connect-secure)
+install=pulse-secure-local.install
+# Ivanti endpoints may validate the vendor binary hash. Never let makepkg
+# strip it or add/remove GNU debug links.
+options=(!strip !debug)
+
+_upstream_ver=22.8r6-b44527
+_rpm="ps-pulse-linux-${_upstream_ver}-installer.rpm"
+source=(EULA.txt)
+source_x86_64=("${_rpm}::https://ftp.uvigo.es/junospulse/${_rpm}")
+sha256sums=('823b298db462d9963148888287ebde2eb013c9b7d0635f3893d18a35776fa8c3')
+sha256sums_x86_64=('f2278aa0a991366b6b349cab1bdeda77961e5a4ad20f285db709e81e3af2e31e')
+
+package() {
+  install -Dm644 EULA.txt "${pkgdir}/usr/share/licenses/${pkgname}/EULA.txt"
+
+  # Preserve all vendor binaries and internal absolute symlinks byte-for-byte.
+  cp -a "${srcdir}/opt" "${pkgdir}/"
+
+  # RPM installs this below /lib; Arch packages systemd units below /usr/lib.
+  install -Dm644 \
+    "${srcdir}/lib/systemd/system/pulsesecure.service" \
+    "${pkgdir}/usr/lib/systemd/system/pulsesecure.service"
+
+  install -Dm644 \
+    "${srcdir}/usr/share/man/man1/pulse.1.gz" \
+    "${pkgdir}/usr/share/man/man1/pulse.1.gz"
+
+  install -dm755 \
+    "${pkgdir}/usr/share/applications" \
+    "${pkgdir}/usr/share/dbus-1/system.d" \
+    "${pkgdir}/var/lib/pulsesecure/pulse" \
+    "${pkgdir}/etc/pki/ca-trust/extracted/openssl"
+
+  ln -s /opt/pulsesecure/resource/pulse.desktop \
+    "${pkgdir}/usr/share/applications/pulse.desktop"
+  ln -s /opt/pulsesecure/lib/JUNS/net.psecure.pulse.conf \
+    "${pkgdir}/usr/share/dbus-1/system.d/net.psecure.pulse.conf"
+  ln -s /etc/ca-certificates/extracted/ca-bundle.trust.crt \
+    "${pkgdir}/etc/pki/ca-trust/extracted/openssl/ca-bundle.trust.crt"
+
+  # Resource files are data, despite the executable mode used by the RPM.
+  find "${pkgdir}/opt/pulsesecure/resource" -type f -exec chmod 644 {} +
+}
