@@ -1,0 +1,9 @@
+# Authenticated proprietary source; download it manually.
+/*.deb
+
+# makepkg working directories and package archives.
+/pkg/
+/src/
+/*.pkg.tar.*
+/*.pkg.tar.*.sig
+/build.log

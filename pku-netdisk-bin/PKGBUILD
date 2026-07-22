@@ -1,0 +1,101 @@
+# Maintainer: Wenrui Huang
+
+export LANG=C.UTF-8
+export LC_ALL=C.UTF-8
+pkgname=pku-netdisk-bin
+pkgver=7.0.6.3.281
+pkgrel=3
+pkgdesc='Peking University Netdisk 2.0 desktop client (AISHU AnyShare OEM build)'
+arch=('x86_64')
+url='https://disk.pku.edu.cn/'
+license=('custom')
+depends=(
+  'alsa-lib'
+  'at-spi2-core'
+  'cairo'
+  'cups'
+  'dbus'
+  'expat'
+  'gdk-pixbuf2'
+  'glib2'
+  'gtk3'
+  'libdrm'
+  'libx11'
+  'libxcb'
+  'libxcomposite'
+  'libxdamage'
+  'libxext'
+  'libxfixes'
+  'libxkbcommon'
+  'libxrandr'
+  'mesa'
+  'nspr'
+  'nss'
+  'pango'
+)
+provides=("anyshare=${pkgver}")
+conflicts=('anyshare' 'pku-netdisk')
+options=('!strip' '!debug')
+
+_debname='pku-netdisk_7.0.6.3-281_amd64.deb'
+_debsha256='d90386c33065d8932380f6c530965c09bf57ea561833b6c75fe5101b698da26e'
+source=()
+sha256sums=()
+
+prepare() {
+  local deb_path="${startdir}/${_debname}"
+  local actual_sha256
+
+  if [[ ! -f "${deb_path}" ]]; then
+    error "Missing authenticated upstream package: ${_debname}"
+    printf >&2 '%s\n' \
+      'Download it after signing in at https://disk.pku.edu.cn/' \
+      "Place it in the current project directory as: ./${_debname}"
+    return 1
+  fi
+
+  actual_sha256=$(sha256sum -- "${deb_path}" | awk '{print $1}')
+  if [[ "${actual_sha256}" != "${_debsha256}" ]]; then
+    error "SHA-256 mismatch for ./${_debname}"
+    printf >&2 'Expected: %s\nActual:   %s\n' "${_debsha256}" "${actual_sha256}"
+    return 1
+  fi
+
+  rm -rf "${srcdir}/deb-extracted"
+  install -d "${srcdir}/deb-extracted"
+  bsdtar -xf "${deb_path}" -C "${srcdir}/deb-extracted" data.tar.xz
+}
+
+package() {
+  bsdtar --no-same-owner -xf "${srcdir}/deb-extracted/data.tar.xz" -C "${pkgdir}"
+
+  # Replace the vendor's localized installation directory with a stable,
+  # ASCII-only path.
+  mv "${pkgdir}/opt/北大网盘 2.0" "${pkgdir}/opt/pkudist"
+  sed -i \
+    -e 's#/opt/北大网盘 2\.0/anyshare#/usr/bin/anyshare#g' \
+    -e '/^Name=/a Name[en]=pkudist' \
+    "${pkgdir}/usr/share/applications/anyshare.desktop"
+
+  install -d "${pkgdir}/usr/bin"
+  cat > "${pkgdir}/usr/bin/anyshare" <<'EOF'
+#!/bin/sh
+# Electron 11's Chromium 87 seccomp filter crashes with SIGSYS while creating
+# renderer threads on current Linux/glibc. Keep the other sandbox layers, but
+# disable the obsolete seccomp-BPF filter.
+exec /opt/pkudist/anyshare --disable-seccomp-filter-sandbox "$@"
+EOF
+
+  # Preserve the non-setuid permissions shipped by the vendor.
+  chmod 0755 \
+    "${pkgdir}/usr/bin/anyshare" \
+    "${pkgdir}/opt/pkudist/anyshare" \
+    "${pkgdir}/opt/pkudist/chrome-sandbox"
+
+  install -Dm644 \
+    "${pkgdir}/opt/pkudist/LICENSE.electron.txt" \
+    "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE.electron.txt"
+  install -Dm644 \
+    "${pkgdir}/opt/pkudist/LICENSES.chromium.html" \
+    "${pkgdir}/usr/share/licenses/${pkgname}/LICENSES.chromium.html"
+}

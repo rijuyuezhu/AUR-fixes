@@ -1,0 +1,36 @@
+pkgbase = pku-netdisk-bin
+	pkgdesc = Peking University Netdisk 2.0 desktop client (AISHU AnyShare OEM build)
+	pkgver = 7.0.6.3.281
+	pkgrel = 3
+	url = https://disk.pku.edu.cn/
+	arch = x86_64
+	license = custom
+	depends = alsa-lib
+	depends = at-spi2-core
+	depends = cairo
+	depends = cups
+	depends = dbus
+	depends = expat
+	depends = gdk-pixbuf2
+	depends = glib2
+	depends = gtk3
+	depends = libdrm
+	depends = libx11
+	depends = libxcb
+	depends = libxcomposite
+	depends = libxdamage
+	depends = libxext
+	depends = libxfixes
+	depends = libxkbcommon
+	depends = libxrandr
+	depends = mesa
+	depends = nspr
+	depends = nss
+	depends = pango
+	provides = anyshare=7.0.6.3.281
+	conflicts = anyshare
+	conflicts = pku-netdisk
+	options = !strip
+	options = !debug
+
+pkgname = pku-netdisk-bin
