@@ -10,7 +10,7 @@ note() {
 }
 
 post_install() {
-  note "Start the required service with: websudo systemctl enable --now pulsesecure.service"
+  note "Start the required service with: sudo systemctl enable --now pulsesecure.service"
   note "The legacy WebKitGTK 4.0 runtime uses the genuine libjxl 0.11 ABI from libjxl11-compat."
 }
 
