@@ -23,7 +23,7 @@ export GIT_LFS_SKIP_SMUDGE=1
 
 pkgname=niri-git-local
 pkgver=${_tag}
-pkgrel=1
+pkgrel=2
 pkgdesc="Scrollable-tiling Wayland compositor"
 arch=(x86_64 aarch64)
 url="https://github.com/niri-wm/${_srcname}"
@@ -45,15 +45,21 @@ provides=("${_srcname}=${pkgver}")
 conflicts=("${_srcname}-bin" "${_srcname}" "${_srcname}-git")
 options=(!debug !lto !strip)
 source=("${_srcname}::git+$url.git#tag=v${_tag}"
-        "${_patchname}::${_patchurl}")
+        "${_patchname}::${_patchurl}"
+        'niri-26.04-virtual-output-minimal.patch')
 b2sums=('SKIP'
-        'SKIP')
+        'SKIP'
+        '25dbb198dff9b943407f2cb4d4cc1c2ce257d164dd39f4fdabae76d53381f7b4545968af72775de58126f13fe8457fc5b6d0e26490071a3200354ddadfc68a2e')
 
 prepare() {
   cd "${_srcname}"
 
   if ! git apply --reverse --check "${srcdir}/${_patchname}" >/dev/null 2>&1; then
     git apply "${srcdir}/${_patchname}"
+  fi
+
+  if ! git apply --reverse --check "${srcdir}/niri-26.04-virtual-output-minimal.patch" >/dev/null 2>&1; then
+    git apply "${srcdir}/niri-26.04-virtual-output-minimal.patch"
   fi
 
   # Tuning cargo
