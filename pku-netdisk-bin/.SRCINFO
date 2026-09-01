@@ -1,7 +1,7 @@
 pkgbase = pku-netdisk-bin
 	pkgdesc = Peking University Netdisk 2.0 desktop client (AISHU AnyShare OEM build)
 	pkgver = 7.0.6.3.281
-	pkgrel = 3
+	pkgrel = 4
 	url = https://disk.pku.edu.cn/
 	arch = x86_64
 	license = custom

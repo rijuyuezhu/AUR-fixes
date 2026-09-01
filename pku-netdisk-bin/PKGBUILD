@@ -4,7 +4,7 @@ export LANG=C.UTF-8
 export LC_ALL=C.UTF-8
 pkgname=pku-netdisk-bin
 pkgver=7.0.6.3.281
-pkgrel=3
+pkgrel=4
 pkgdesc='Peking University Netdisk 2.0 desktop client (AISHU AnyShare OEM build)'
 arch=('x86_64')
 url='https://disk.pku.edu.cn/'
@@ -71,10 +71,10 @@ package() {
 
   # Replace the vendor's localized installation directory with a stable,
   # ASCII-only path.
-  mv "${pkgdir}/opt/北大网盘 2.0" "${pkgdir}/opt/pkudist"
+  mv "${pkgdir}/opt/北大网盘 2.0" "${pkgdir}/opt/pkudisk"
   sed -i \
     -e 's#/opt/北大网盘 2\.0/anyshare#/usr/bin/anyshare#g' \
-    -e '/^Name=/a Name[en]=pkudist' \
+    -e '/^Name=/a Name[en]=pkudisk' \
     "${pkgdir}/usr/share/applications/anyshare.desktop"
 
   install -d "${pkgdir}/usr/bin"
@@ -83,19 +83,19 @@ package() {
 # Electron 11's Chromium 87 seccomp filter crashes with SIGSYS while creating
 # renderer threads on current Linux/glibc. Keep the other sandbox layers, but
 # disable the obsolete seccomp-BPF filter.
-exec /opt/pkudist/anyshare --disable-seccomp-filter-sandbox "$@"
+exec /opt/pkudisk/anyshare --disable-seccomp-filter-sandbox "$@"
 EOF
 
   # Preserve the non-setuid permissions shipped by the vendor.
   chmod 0755 \
     "${pkgdir}/usr/bin/anyshare" \
-    "${pkgdir}/opt/pkudist/anyshare" \
-    "${pkgdir}/opt/pkudist/chrome-sandbox"
+    "${pkgdir}/opt/pkudisk/anyshare" \
+    "${pkgdir}/opt/pkudisk/chrome-sandbox"
 
   install -Dm644 \
-    "${pkgdir}/opt/pkudist/LICENSE.electron.txt" \
+    "${pkgdir}/opt/pkudisk/LICENSE.electron.txt" \
     "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE.electron.txt"
   install -Dm644 \
-    "${pkgdir}/opt/pkudist/LICENSES.chromium.html" \
+    "${pkgdir}/opt/pkudisk/LICENSES.chromium.html" \
     "${pkgdir}/usr/share/licenses/${pkgname}/LICENSES.chromium.html"
 }

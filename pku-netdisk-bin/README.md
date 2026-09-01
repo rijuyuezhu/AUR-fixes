@@ -4,7 +4,7 @@
 
 上游程序是上海爱数 AnyShare `7.0.6-3-281` 的北大 OEM 版本，服务器预配置为 `disk.pku.edu.cn`。
 
-程序安装到纯 ASCII 路径 `/opt/pkudist`，命令入口为 `/usr/bin/anyshare`。
+程序安装到纯 ASCII 路径 `/opt/pkudisk`，命令入口为 `/usr/bin/anyshare`。
 
 ## 获取上游安装包
 
@@ -43,13 +43,13 @@ https://disk.pku.edu.cn/
 生成的包位于当前目录，文件名类似：
 
 ```text
-pku-netdisk-bin-7.0.6.3.281-3-x86_64.pkg.tar.zst
+pku-netdisk-bin-7.0.6.3.281-4-x86_64.pkg.tar.zst
 ```
 
 也可以单独安装已构建的包：
 
 ```bash
-pkexec pacman -U ./pku-netdisk-bin-7.0.6.3.281-3-x86_64.pkg.tar.zst
+pkexec pacman -U ./pku-netdisk-bin-7.0.6.3.281-4-x86_64.pkg.tar.zst
 ```
 
 卸载：
