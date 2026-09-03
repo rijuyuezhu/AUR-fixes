@@ -7,7 +7,7 @@
 _pkgname=wemeet-wayland-screenshare
 pkgname=wemeet-wayland-screenshare-git-local
 provides=('wemeet-wayland-screenshare')
-pkgver=3.19.2.400_hooked.r58.g71e7889
+pkgver=3.19.2.400_hooked.r59.gb96acfa
 pkgrel=1
 pkgdesc='Hooked wemeet that enables screenshare on Wayland. 实现Wayland下腾讯会议屏幕共享.'
 arch=('x86_64')
@@ -30,7 +30,6 @@ depends=(
     'xdg-desktop-portal'
     'xdg-desktop-portal-impl'
     'qt5-wayland'
-    'opencv'
     'libxrandr'
 )
 optdepends=(
